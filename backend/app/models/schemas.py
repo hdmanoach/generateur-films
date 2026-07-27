@@ -53,3 +53,11 @@ class MovieSuggestion(BaseModel):
 
 class SuggestResponse(BaseModel):
     suggestions: list[MovieSuggestion]
+
+
+# ---- Réponse de /surprise : on renvoie aussi les 2 titres tirés au sort,
+# pour que le frontend puisse afficher "Basé sur X et Y" ----
+
+class SurpriseResponse(BaseModel):
+    base_media: list[MovieSearchResult]
+    suggestions: list[MovieSuggestion]

@@ -18,6 +18,7 @@ pendant les appels réseau.
 """
 
 import httpx
+import random
 from app.config import settings
 from app.models.schemas import MovieSearchResult, MediaType
 
@@ -237,3 +238,41 @@ async def get_video_key(media_id: int, media_type: MediaType) -> str | None:
         None,
     )
     return trailer["key"] if trailer else None
+
+
+async def get_random_popular(media_type: MediaType, count: int = 2) -> list[MovieSearchResult]:
+    """
+    Pioche `count` titres distincts au hasard parmi les films/séries populaires
+    du moment. Utilisé par la fonctionnalité "Surprise moi" : au lieu de faire
+    saisir 2 titres à l'utilisateur, on en choisit 2 nous-mêmes.
+
+    On tire une page aléatoire (parmi les 5 premières, toutes bien peuplées
+    en résultats populaires) pour varier les tirages d'un appel à l'autre.
+    """
+    title_field = _title_field(media_type)
+    date_field = _date_field(media_type)
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f"{settings.tmdb_base_url}/{media_type}/popular",
+            params={
+                "api_key": settings.tmdb_api_key,
+                "language": "fr-FR",
+                "page": random.randint(1, 5),
+            },
+        )
+        response.raise_for_status()
+        data = response.json()
+
+    results = data.get("results", [])
+    picks = random.sample(results, k=min(count, len(results)))
+
+    return [
+        MovieSearchResult(
+            tmdb_id=item["id"],
+            title=item[title_field],
+            year=int(item[date_field][:4]) if item.get(date_field) else None,
+            poster_path=item.get("poster_path"),
+        )
+        for item in picks
+    ]

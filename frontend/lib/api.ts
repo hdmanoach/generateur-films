@@ -79,3 +79,30 @@ export function posterUrl(posterPath: string | null, size: "w200" | "w500" = "w2
   if (!posterPath) return null;
   return `https://image.tmdb.org/t/p/${size}${posterPath}`;
 }
+
+export type SurpriseResult = {
+  baseMedia: MovieSearchResult[];
+  suggestions: MovieSuggestion[];
+};
+
+/**
+ * "Surprise moi" : le backend choisit lui-même 2 titres populaires au hasard
+ * et génère une suggestion à partir d'eux. On renvoie aussi ces 2 titres de
+ * base pour que l'interface puisse afficher "Basé sur X et Y".
+ */
+export async function getSurprise(
+  mediaType: MediaType = "movie",
+  filters: SuggestFilters = {}
+): Promise<SurpriseResult> {
+  const params = new URLSearchParams({ media_type: mediaType });
+  if (filters.minYear) params.set("min_year", String(filters.minYear));
+  if (filters.minRating) params.set("min_rating", String(filters.minRating));
+
+  const res = await fetch(`${API_BASE_URL}/surprise?${params.toString()}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail ?? "La surprise a échoué, réessaie");
+  }
+  const data = await res.json();
+  return { baseMedia: data.base_media, suggestions: data.suggestions };
+}
