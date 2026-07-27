@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  /* Palette — évite volontairement le cream/terracotta et le noir/vert acide
+     par défaut : anthracite profond façon salle obscure, doré façon enseigne
+     de cinéma, vert sourd façon velours de fauteuil. */
+  --color-bg: #12141a;
+  --color-bg-raised: #191c24;
+  --color-ink: #f0ede6;
+  --color-ink-muted: #a3a2a0;
+  --color-gold: #e8a33d;
+  --color-gold-dim: #8a6428;
+  --color-velvet: #3d6b63;
+  --color-velvet-bright: #5a9c8f;
+  --color-line: #2a2d36;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-raised: var(--color-bg-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-gold: var(--color-gold);
+  --color-gold-dim: var(--color-gold-dim);
+  --color-velvet: var(--color-velvet);
+  --color-velvet-bright: var(--color-velvet-bright);
+  --color-line: var(--color-line);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+/* Grain subtil pour casser le plat du fond anthracite, façon grain de
+   pellicule — très discret, juste une texture d'ambiance. */
+.film-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
