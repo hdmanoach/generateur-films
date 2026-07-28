@@ -11,7 +11,7 @@ le choix parmi des candidats réels et rédige une explication personnalisée.
   ta vidéo (voir instructions dans la section "Comment ajouter la vidéo"
   plus bas). Tant que ce n'est pas fait, cette balise n'affichera rien.
 -->
-<video src="github.mp4" controls width="700"></video>
+<video src="https://github.com/user-attachments/assets/d9ce0c3f-7064-4e4b-a7c3-742923fa3225" controls width="700"></video>
 
 ## Aperçu
 
