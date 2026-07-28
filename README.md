@@ -11,7 +11,7 @@ le choix parmi des candidats réels et rédige une explication personnalisée.
   ta vidéo (voir instructions dans la section "Comment ajouter la vidéo"
   plus bas). Tant que ce n'est pas fait, cette balise n'affichera rien.
 -->
-<video src="https://github.com/hdmanoach/generateur-films/blob/78e3411c4a4efe71bcde75b59318139c49e81381/github.mp4" controls width="700"></video>
+<video src="github.mp4" controls width="700"></video>
 
 ## Aperçu
 
