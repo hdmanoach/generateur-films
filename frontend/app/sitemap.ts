@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
-// ⚠️ Remplace par ton vrai nom de domaine une fois déployé
-const SITE_URL = "https://ton-domaine.com";
+const SITE_URL = "https://generateur-films.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
